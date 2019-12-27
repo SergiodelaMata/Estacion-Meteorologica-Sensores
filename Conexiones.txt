@@ -1,0 +1,36 @@
+DHT11:
+	VCC -> 3.3V
+	DATA -> D4 y 3.3V con una resistencia de 10k
+BMP180: 
+	VCC -> 3.3V
+	SCL -> D22
+	SDA -> D21
+
+Sensor de lluvia:
+	VCC -> 5V
+	AO -> D13
+	DO -> Nada
+
+LDR:
+	Pin1 -> 5V
+	Pin2 -> VP y GND con una resistentecia de 10k
+ 
+GPS:
+	VCC -> 3.3V
+	RX -> RX2
+	TX -> TX2
+
+MQ135:
+	VCC -> 5V (EXTERNOS)r45
+	AO -> 32
+	DO -> Nada
+
+Sensor hall:
+	Pin1 ->
+	Pin2 ->
+	Pin3 ->
+
+Sensor UVA: 
+	VCC -> 3.3V
+	SCL -> D22
+	SDA -> D21	
