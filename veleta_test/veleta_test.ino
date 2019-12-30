@@ -10,7 +10,7 @@ void loop(){
   c2=false;
   c3=false;
   c4=false;
-  double YValue =analogRead(32);//YValue = random(776, 4095);
+  double YValue =analogRead(34);//YValue = random(776, 4095);
   double XValue =analogRead(33);//XValue = random(772, 4095);
   double y = map(YValue, 776, 4095, -100, 100);
   double x = map(XValue, 772, 4095, -100, 100);
