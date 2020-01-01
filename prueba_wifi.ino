@@ -17,6 +17,7 @@ int rainPin = 13;
 //nombre y contraseña de vuestro wifi
 const char* ssid = "";
 const char* password =  "";
+int id_estacion=  ;
 HTTPClient http;
 
 const char* serverName = "http://weatherubicuastation.duckdns.org/addBBDD.php";
@@ -51,18 +52,14 @@ void loop() {
   //readLDR();
   //readUVA();
   //readMQ135();
-  //cambiad el id a otro distinto  
-  String httpRequestData = String("&id=") + 1 + "&humedad=" + dht[0]  +"&temperatura=" + dht[1]  +"&sensacionTermica=" +dht[2];
+  String httpRequestData = String("?id=") + id_estacion + "&humedad=" + dht[0]  +"&temperatura=" + dht[1]  +"&sensacionTermica=" +dht[2];
   String url = String(serverName) + httpRequestData;
-  Serial.println(url);
-  
+  Serial.println(url);  
   http.begin(url); 
   int httpCode = http.GET();                                    
-  //Serial.println(httpCode);
-        
+  Serial.println(httpCode);        
   http.end();
-  delay(10000);
-  
+  delay(10000); 
 
 }
 
@@ -129,8 +126,12 @@ void readBMP(){
 }
 
 void readDHT(float *array){
-  array[0]=dht.readHumidity();  
-  array[1]=dht.readTemperature();  
+  
+  float h=dht.readHumidity();  
+  array[0]=h;
+  
+  float t=dht.readTemperature();  
+  array[1]=t;
   array[2]=dht.computeHeatIndex(t, h, false);
 
   
