@@ -36,9 +36,9 @@ void setup() {
     delay(500);
     Serial.println("Connecting to WiFi..");
   }  
-  //bmp.begin();
+  bmp.begin();
   dht.begin();
-  //uv.begin(); 
+  uv.begin(); 
   pinMode(rainPin, INPUT);
   gpsSerial.begin(9600, SERIAL_8N1, RXD2, TXD2);
 }
