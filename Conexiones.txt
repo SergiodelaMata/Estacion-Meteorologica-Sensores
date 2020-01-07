@@ -25,10 +25,15 @@ MQ135:
 	AO -> 32
 	DO -> Nada
 
-Sensor hall:
-	Pin1 ->
-	Pin2 ->
-	Pin3 ->
+Sensor hall X (horizontal):
+	Pin1 -> 5V
+	Pin2 -> GND
+	Pin3 -> D33
+	
+Sensor hall Y (vertical):
+	Pin1: 5V
+	Pin2: GND
+	Pin3: D35
 
 Sensor UVA: 
 	VCC -> 3.3V
