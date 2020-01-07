@@ -7,6 +7,7 @@
 #include "WiFi.h"
 #include "HTTPClient.h"
 
+
 #define DHTPIN 4   
 #define DHTTYPE DHT11   // DHT 11
 
@@ -15,9 +16,18 @@ Adafruit_BMP085 bmp;
 Adafruit_VEML6075 uv = Adafruit_VEML6075();
 int rainPin = 13;
 //nombre y contraseña de vuestro wifi
-const char* ssid = "MOVISTAR_EC4E";
-const char* password =  "925818941wifi";
+const char* ssid = "MOVISTAR_C402";
+const char* password =  "C68313C2DF8DF1286147";
 int id_estacion= 2 ;
+float temp;
+float hum;
+float hic;
+float bmpV;
+float uva;
+String rm;
+String ldr;
+float viento;
+String mq;
 HTTPClient http;
 
 const char* serverName = "http://weatherubicuastation.duckdns.org/addBBDD.php";
@@ -44,25 +54,16 @@ void setup() {
 }
 
 void loop() {
-  float temp;
-  float hum;
-  float hic;
-  float bm;
-  float uva;
-  String rm;
-  String ldr;
-  float viento;
-  String mq;
   //readGPS();
-  readDHT(temp, hum, hic);
-  readBMP(bm);
-  readRain(rm);
-  readLDR(ldr);
-  readUVA(uva);
-  readVeleta(viento);
-  readMQ135(mq);
-  String httpRequestData = String("?id=") + id_estacion + "&humedad=" +hum  +"&temperatura=" +temp  +"&sensacion_termica=" +hic +"&presion_atmosferica=" +bm 
-                           +"&cantidad_lluvia=" +rm +"&nivel_luz=" +ldr +"&nivel_radiacion=" +uva +"&angulo_viento=" +viento +"&calidad_aire=" +mq;
+  readDHT();
+  readBMP();
+  readRain();
+  readLDR();
+  readUVA();
+  readVeleta();
+  readMQ135();
+  String httpRequestData = String("?id=") + id_estacion + "&humedad=" + hum  +"&temperatura=" + temp  +"&sensacion_termica=" + hic +"&presion_atmosferica=" + bmpV 
+                           + "&cantidad_lluvia=" +rm +"&nivel_luz=" +ldr +"&nivel_radiacion=" +uva +"&angulo_viento=" +viento +"&calidad_aire=" +mq;
   String url = String(serverName) + httpRequestData;
   Serial.println(url);  
   http.begin(url); 
@@ -73,7 +74,7 @@ void loop() {
 
 }
 
-void readVeleta(float viento){
+void readVeleta(){
    boolean c1,c2,c3,c4;
    c1=false;
    c2=false;
@@ -104,7 +105,7 @@ void readGPS(){
   }
 }
 
-void readMQ135(String mq){
+void readMQ135(){
   int sensorValue = analogRead(32);
   if(sensorValue >= 400){
     mq = "Media";
@@ -120,10 +121,10 @@ void readMQ135(String mq){
   }
 }
 
-void readUVA(float uva){
+void readUVA(){
   uva = uv.readUVI();
 }
-void readLDR(String ldr){
+void readLDR(){
   int sensorValue = analogRead(36);
   if(sensorValue >= 2800){
     ldr = "Soleado";
@@ -136,7 +137,7 @@ void readLDR(String ldr){
   }
 }
 
-void readRain(String rm){
+void readRain(){
     int sensorValue = analogRead(rainPin);
     int range = map(sensorValue, 150, 4095, 0, 2);
   switch (range) {
@@ -152,11 +153,11 @@ void readRain(String rm){
   }
 }
 
-void readBMP(float bm){
- bm = bmp.readPressure();
+void readBMP(){
+ bmpV = bmp.readPressure();
 }
 
-void readDHT(float temp, float hum, float hic){
+void readDHT(){
   
   hum = dht.readHumidity();  
   temp = dht.readTemperature();  
