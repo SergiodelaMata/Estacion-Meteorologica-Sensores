@@ -141,13 +141,13 @@ void readRain(String *array){
     int range = map(sensorValue, 150, 4095, 0, 2);
   switch (range) {
     case 0:   
-      array[0] = "LLuvia intensa";
+      array[0] = "LLuvia%20intensa";
       break;
     case 1:    
-      array[0] = "LLuvia moderada";
+      array[0] = "LLuvia%20moderada";
       break;
     case 2:    
-      array[0] = "Sin lluvia";
+      array[0] = "Sin%20lluvia";
       break;
   }
 }
