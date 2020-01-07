@@ -61,7 +61,7 @@ void loop() {
   readUVA(uva);
   readVeleta(viento);
   readMQ135(mq);
-  String httpRequestData = String("?id=") + id_estacion + "&humedad=" +hum  +"&temperatura=" +temp  +"&sensacion_termica=" +hic +"&presion_atmosferica=" +bmp 
+  String httpRequestData = String("?id=") + id_estacion + "&humedad=" +hum  +"&temperatura=" +temp  +"&sensacion_termica=" +hic +"&presion_atmosferica=" +bm 
                            +"&cantidad_lluvia=" +rm +"&nivel_luz=" +ldr +"&nivel_radiacion=" +uva +"&angulo_viento=" +viento +"&calidad_aire=" +mq;
   String url = String(serverName) + httpRequestData;
   Serial.println(url);  
