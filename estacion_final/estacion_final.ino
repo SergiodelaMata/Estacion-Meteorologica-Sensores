@@ -138,7 +138,7 @@ void readLDR(String *array){
 
 void readRain(String *array){
     int sensorValue = analogRead(rainPin);
-    int range = map(sensorValue, 150, 4095, 0, 3);
+    int range = map(sensorValue, 150, 4095, 0, 2);
   switch (range) {
     case 0:   
       array[0] = "LLuvia intensa";
