@@ -77,7 +77,7 @@ void readVeleta(float *array){
    c2=false;
    c3=false;
    c4=false;
-   double YValue =analogRead(32);
+   double YValue =analogRead(35);
    double XValue =analogRead(33);
    double y = map(YValue, 776, 4095, -100, 100); // los valores min y max se deben ajustar a cada sensor
    double x = map(XValue, 772, 4095, -100, 100);
