@@ -160,7 +160,7 @@ void readDHT(float temp, float hum, float hic){
   
   hum = dht.readHumidity();  
   temp = dht.readTemperature();  
-  hic = dht.computeHeatIndex(t, h, false);
+  hic = dht.computeHeatIndex(temp, hum, false);
 
   
 
