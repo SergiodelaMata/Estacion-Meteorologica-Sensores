@@ -44,23 +44,25 @@ void setup() {
 }
 
 void loop() {
-  float dht[3];
-  float bmp[1];
-  float uva[1];
-  String rm[1];
-  String ldr[1];
-  float viento[1];
-  String mq[1];
+  float temp;
+  float hum;
+  float hic;
+  float bm;
+  float uva;
+  String rm;
+  String ldr;
+  float viento;
+  String mq;
   //readGPS();
-  readDHT(&dht[0]);
-  readBMP(&bmp[0]);
-  readRain(&rm[0]);
-  readLDR(&ldr[0]);
-  readUVA(&uva[0]);
-  readVeleta(&viento[0]);
-  readMQ135(&mq[0]);
-  String httpRequestData = String("?id=") + id_estacion + "&humedad=" + dht[0]  +"&temperatura=" + dht[1]  +"&sensacion_termica=" +dht[2] +"&presion_atmosferica=" +bmp[0] 
-                           +"&cantidad_lluvia=" +rm[0] +"&nivel_luz=" +ldr[0] +"&nivel_radiacion=" +uva[0] +"&angulo_viento=" +viento[2] +"&calidad_aire=" +mq[0];
+  readDHT(temp, hum, hic);
+  readBMP(bm);
+  readRain(rm);
+  readLDR(ldr);
+  readUVA(uva);
+  readVeleta(viento);
+  readMQ135(mq);
+  String httpRequestData = String("?id=") + id_estacion + "&humedad=" +hum  +"&temperatura=" +temp  +"&sensacion_termica=" +hic +"&presion_atmosferica=" +bmp 
+                           +"&cantidad_lluvia=" +rm +"&nivel_luz=" +ldr +"&nivel_radiacion=" +uva +"&angulo_viento=" +viento +"&calidad_aire=" +mq;
   String url = String(serverName) + httpRequestData;
   Serial.println(url);  
   http.begin(url); 
@@ -71,7 +73,7 @@ void loop() {
 
 }
 
-void readVeleta(float *array){
+void readVeleta(float viento){
    boolean c1,c2,c3,c4;
    c1=false;
    c2=false;
@@ -81,16 +83,14 @@ void readVeleta(float *array){
    double XValue =analogRead(33);
    double y = map(YValue, 776, 4095, -100, 100); // los valores min y max se deben ajustar a cada sensor
    double x = map(XValue, 772, 4095, -100, 100);
-   array[0] = x;
-   array[1] = y;
    if (y >= 0 && x >= 0){c1=true;} // y+ x+
    if (y < 0 && x >= 0 ){c2=true;} // y- x+
    if (y < 0 && x < 0){c3=true;} // y- x-
    if (y >= 0 && x < 0){c4=true;} // y+ x-
    double formula = 180*(double)(atan((double)(x/y))/PI);
-   if (c1){array[2] = formula;} 
-   if (c2 || c3){array[2] = 180+formula;}
-   if (c4){array[2] = 360+formula;}
+   if (c1){viento = formula;} 
+   if (c2 || c3){viento = 180+formula;}
+   if (c4){viento = 360+formula;}
 }
 void readGPS(){
    if (gpsSerial.available()) {
@@ -104,66 +104,63 @@ void readGPS(){
   }
 }
 
-void readMQ135(String *array){
+void readMQ135(String mq){
   int sensorValue = analogRead(32);
   if(sensorValue >= 400){
-    array[0] = "Media";
+    mq = "Media";
   }
   else if(sensorValue >= 600){
-    array[0] = "Baja";
+    mq = "Baja";
   } 
   else if(sensorValue >= 800){
-    array[0] = "Pesima";
+    mq = "Pesima";
   }
   else{
-    array[0] = "Buena";
+    mq = "Buena";
   }
 }
 
-void readUVA(float *array){
-  array[0] = uv.readUVI();
+void readUVA(float uva){
+  uva = uv.readUVI();
 }
-void readLDR(String *array){
+void readLDR(String ldr){
   int sensorValue = analogRead(36);
   if(sensorValue >= 2800){
-    array[0] = "Soleado";
+    ldr = "Soleado";
   }
   else if(sensorValue >= 1200){
-    array[0] = "Nublado";
+    ldr = "Nublado";
   }
   else{
-    array[0] = "Noche";
+    ldr = "Noche";
   }
 }
 
-void readRain(String *array){
+void readRain(String rm){
     int sensorValue = analogRead(rainPin);
     int range = map(sensorValue, 150, 4095, 0, 2);
   switch (range) {
     case 0:   
-      array[0] = "LLuvia%20intensa";
+      rm = "LLuvia%20intensa";
       break;
     case 1:    
-      array[0] = "LLuvia%20moderada";
+      rm = "LLuvia%20moderada";
       break;
     case 2:    
-      array[0] = "Sin%20lluvia";
+      rm = "Sin%20lluvia";
       break;
   }
 }
 
-void readBMP(float *array){
-  array [0] = bmp.readPressure();
+void readBMP(float bm){
+ bm = bmp.readPressure();
 }
 
-void readDHT(float *array){
+void readDHT(float temp, float hum, float hic){
   
-  float h=dht.readHumidity();  
-  array[0]=h;
-  
-  float t=dht.readTemperature();  
-  array[1]=t;
-  array[2]=dht.computeHeatIndex(t, h, false);
+  hum = dht.readHumidity();  
+  temp = dht.readTemperature();  
+  hic = dht.computeHeatIndex(t, h, false);
 
   
 
