@@ -99,15 +99,11 @@ void readVeleta(){
    if (c4){viento = 360+formula;}
 }
 void readGPS(){
-   if (gpsSerial.available()) {
-    if (gpsPlus.encode(gpsSerial.read())){
-      if(gpsPlus.location.isUpdated()){
-        latitud = gpsPlus.location.lat();
+   gpsPlus.encode(gpsSerial.read());
+      latitud = gpsPlus.location.lat();
         longitud = gpsPlus.location.lng();
-        
-      }
-    }
-  }
+        Serial.println(latitud);
+        Serial.println(longitud);
 }
 
 void readMQ135(){
