@@ -68,7 +68,7 @@ void loop() {
   readVeleta();
   readMQ135();
   String httpRequestData = String("?id=") + id_estacion + "&humedad=" + hum  +"&temperatura=" + temp  +"&sensacion_termica=" + hic +"&presion_atmosferica=" + bmpV 
-                           + "&cantidad_lluvia=" +rm +"&nivel_luz=" +ldr +"&nivel_radiacion=" +uva +"&angulo_viento=" +viento +"&calidad_aire=" +mq;
+                           + "&cantidad_lluvia=" +rm +"&nivel_luz=" +ldr +"&nivel_radiacion=" +uva +"&angulo_viento=" +viento +"&calidad_aire=" +mq + "&latitud=" +latitud +"&longitud=" +longitud;
   String url = String(serverName) + httpRequestData;
   Serial.println(url);  
   http.begin(url); 
@@ -104,13 +104,7 @@ void readGPS(){
       if(gpsPlus.location.isUpdated()){
         latitud = gpsPlus.location.lat();
         longitud = gpsPlus.location.lng();
-        String httpRequestData = String("?id=") + id_estacion + "&latitud=" +latitud +"&longitud=" +longitud;
-        String url = String(serverGPS) + httpRequestData;
-        Serial.println(url);  
-        http.begin(url); 
-        int httpCode = http.GET();                                    
-        Serial.println(httpCode);        
-        http.end();
+        
       }
     }
   }
