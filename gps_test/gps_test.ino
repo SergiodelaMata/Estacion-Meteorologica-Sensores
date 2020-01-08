@@ -12,9 +12,8 @@ void setup() {
 }
 
 void loop() {
-  while (gpsSerial.available()) {
    //Serial.println(gpsSerial.read());  // read from gps, write to serial debug port
-   if (gpsPlus.encode(gpsSerial.read())){
+   gpsPlus.encode(gpsSerial.read());
       Serial.print("latitud: ");
       Serial.println(gpsPlus.location.lat());
       Serial.print("longitud: ");
