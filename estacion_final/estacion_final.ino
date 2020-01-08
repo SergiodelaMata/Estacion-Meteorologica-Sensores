@@ -70,7 +70,7 @@ void loop() {
   int httpCode = http.GET();                                    
   Serial.println(httpCode);        
   http.end();
-  delay(10000); 
+  delay(300000); 
 
 }
 
